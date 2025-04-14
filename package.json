@@ -1,0 +1,35 @@
+{
+  "name": "ideaboard",
+  "version": "1.0.0",
+  "description": "생각짜내기 게시판",
+  "main": "server.ts",
+  "scripts": {
+    "start": "node server.ts",
+    "dev": "nodemon server.ts",
+    "client": "cd client && npm start",
+    "build": "cd client && npm run build",
+    "netlify-build": "npm install && npm run build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/react": "^18.2.55",
+    "@types/react-dom": "^18.2.19",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.4",
+    "express": "^4.18.2",
+    "mongoose": "^8.1.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.22.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "nodemon": "^3.0.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
