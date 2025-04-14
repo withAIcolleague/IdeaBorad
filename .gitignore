@@ -1,6 +1,5 @@
 # dependencies
-/node_modules
-/client/node_modules
+node_modules/
 /.pnp
 .pnp.js
 
@@ -9,7 +8,6 @@
 
 # production
 /build
-/client/build
 
 # misc
 .DS_Store
@@ -33,9 +31,11 @@ yarn-error.log*
 # Firebase
 .firebase/
 firebase-debug.log*
+firebase-service-account.json
 
 # MongoDB
 *.mongodb
 
 # TypeScript
 *.tsbuildinfo 
+.vercel

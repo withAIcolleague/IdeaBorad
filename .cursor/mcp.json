@@ -1,0 +1,13 @@
+{
+  "firebase-mcp": {
+    "command": "npx",
+    "args": [
+      "-y",
+      "@gannonh/firebase-mcp"
+    ],
+    "env": {
+      "SERVICE_ACCOUNT_KEY_PATH": "./firebase-service-account.json",
+      "FIREBASE_STORAGE_BUCKET": "myportalextension.appspot.com"
+    }
+  }
+} 
