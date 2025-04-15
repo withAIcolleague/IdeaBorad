@@ -91,10 +91,9 @@ app.post('/api/posts', async (req: Request, res: Response) => {
 
 // 정적 파일 제공
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client/build')));
-  
+  // 프론트엔드는 Firebase에서 호스팅되므로 정적 파일 제공 제거
   app.get('*', (req: Request, res: Response) => {
-    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+    res.status(404).json({ message: 'API 엔드포인트를 찾을 수 없습니다.' });
   });
 }
 
