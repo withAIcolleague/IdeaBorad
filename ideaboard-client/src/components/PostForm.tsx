@@ -11,6 +11,7 @@ const PostForm: React.FC = () => {
     author: ''
   });
   const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -22,29 +23,64 @@ const PostForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
+    setIsSubmitting(true);
+
     try {
+      console.log('게시글 작성 요청:', formData);
+      console.log('API URL:', API_URL);
+      
       const response = await fetch(`${API_URL}/api/posts`, {
         method: 'POST',
+        mode: 'cors',
         headers: {
-          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(formData),
+      }).catch(err => {
+        console.error('네트워크 에러:', err);
+        throw new Error('서버에 연결할 수 없습니다. 잠시 후 다시 시도해주세요.');
       });
 
+      console.log('서버 응답:', response.status);
+
       if (!response.ok) {
-        throw new Error('게시글 작성에 실패했습니다.');
+        const errorData = await response.json().catch(() => null);
+        throw new Error(
+          errorData?.message || 
+          `게시글 작성 실패 (${response.status}): ${response.statusText}`
+        );
       }
 
+      const data = await response.json();
+      console.log('작성 완료:', data);
       navigate('/');
     } catch (err) {
-      setError(err instanceof Error ? err.message : '알 수 없는 에러가 발생했습니다.');
+      console.error('에러 발생:', err);
+      setError(
+        err instanceof Error 
+          ? err.message 
+          : '서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.'
+      );
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
     <div className="post-form">
       <h1>새로운 생각 작성하기</h1>
-      {error && <div className="error">{error}</div>}
+      {error && (
+        <div className="error">
+          <p style={{ color: 'red', marginBottom: '10px' }}>
+            {error}
+          </p>
+          <p style={{ fontSize: '0.9em', color: '#666' }}>
+            서버 상태를 확인 중입니다. 잠시만 기다려주세요.
+          </p>
+        </div>
+      )}
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="title">제목</label>
@@ -55,6 +91,7 @@ const PostForm: React.FC = () => {
             value={formData.title}
             onChange={handleChange}
             required
+            disabled={isSubmitting}
           />
         </div>
         <div className="form-group">
@@ -66,6 +103,7 @@ const PostForm: React.FC = () => {
             value={formData.author}
             onChange={handleChange}
             required
+            disabled={isSubmitting}
           />
         </div>
         <div className="form-group">
@@ -77,9 +115,12 @@ const PostForm: React.FC = () => {
             onChange={handleChange}
             required
             rows={10}
+            disabled={isSubmitting}
           />
         </div>
-        <button type="submit">작성하기</button>
+        <button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? '작성 중...' : '작성하기'}
+        </button>
       </form>
     </div>
   );

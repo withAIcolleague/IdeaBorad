@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "ideaboard-client/build",
+    "public": "build",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -13,4 +13,4 @@
       }
     ]
   }
-} 
+}
