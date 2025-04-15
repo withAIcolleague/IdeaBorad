@@ -12,9 +12,14 @@ const PORT = process.env.PORT || 5000;
 // CORS 설정
 app.use(cors({
   origin: ['http://localhost:3000', 'https://businessideaboard.web.app'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Accept']
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Accept', 'Origin', 'X-Requested-With'],
+  credentials: true,
+  maxAge: 86400 // 24시간
 }));
+
+// CORS Preflight 요청을 위한 OPTIONS 처리
+app.options('*', cors());
 
 app.use(express.json());
 

@@ -32,11 +32,13 @@ const PostForm: React.FC = () => {
       
       const response = await fetch(`${API_URL}/api/posts`, {
         method: 'POST',
-        mode: 'cors',
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Origin': 'https://businessideaboard.web.app'
         },
+        mode: 'cors',
+        credentials: 'include',
         body: JSON.stringify(formData),
       }).catch(err => {
         console.error('네트워크 에러:', err);
